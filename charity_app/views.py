@@ -1,9 +1,7 @@
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Avg, Count, Min, Sum
 from charity_app.models import Donation, Institution
@@ -20,12 +18,13 @@ class LandingPageView(View):
                    'nto': nto, 'local_charity': local_charity}
         return render(request, 'charity_app/index.html', context)
 
-class AddDonationView(View):
+class AddDonationView(LoginRequiredMixin, View):
+    login_url = '/login/'
 
     def get(self, request):
         return render(request, 'charity_app/form.html')
 
-class LoginView(View):
+class LoginUserView(View):
 
     def get(self, request):
         return render(request, 'charity_app/login.html')
@@ -33,16 +32,33 @@ class LoginView(View):
     def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = User.objects.get(email=email)
-        auth_user = authenticate(username=user.username, password=password)
+        user = User.objects.get(username=email)
+        auth_user = authenticate(username=user.email, password=password)
         if auth_user:
             login(request, auth_user)
-            return render(request, 'charity_app/login.html')
+            return render(request, 'charity_app/index.html')
         else:
             return render(request, 'charity_app/login.html')
 
+class LogoutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('landing_page')
 
 class RegisterView(View):
 
     def get(self, request):
         return render(request, 'charity_app/register.html')
+
+    def post(self, request):
+        name = request.POST.get('name')
+        surname = request.POST.get('surname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        if password == password2:
+            User.objects.create_user(username=email, email=email, first_name=name, last_name=surname, password=password)
+            return redirect('login')
+        else:
+            return render(request, 'charity_app/register.html')
