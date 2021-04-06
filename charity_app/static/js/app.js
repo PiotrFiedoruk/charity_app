@@ -235,8 +235,8 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
-    }
-
+    summary()
+  }
     /**
      * Submit form
      *
@@ -252,4 +252,5 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
 });
