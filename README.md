@@ -15,7 +15,7 @@ Application allows users to make donations to the specified charity of their cho
 * create donations
 
 ## Project status: ongoing
-![charity_app_main_page](static/images/github_index.png)
+![charity_app_main_page](charity_app/static/images/github_index.png)
 
 
 
