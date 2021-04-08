@@ -17,8 +17,8 @@ function show_id(event)
                     '<input type="radio" name="organization" value="old"/>'+
                     '<span class="checkbox radio"></span>'+
                     '<span class="description">'+
-                  '<div class="title">' + element[1] + '</div>'+
-                  '<div class="subtitle">'+
+                  '<div class="title" id="org_title">' + element[1] + '</div>'+
+                  '<div class="org_subtitle">'+
                     element[3] +
                   '</div>' +
                 '</span>' +
@@ -58,18 +58,59 @@ var checkboxes = document.querySelectorAll('input[name="categories"]:checked');
 categories()
 
 function summary(){
-    var gift = document.querySelector(".checkboxy:checked");
-    console.log(gifts);
-    var giftBags = document.querySelectorAll('input[name="bags"]');
+    // get info
+    var gift = document.querySelector(".checkboxy:checked")
+    console.log(gift);
+    var organisation = document.querySelector("#org_title").value
+    console.log(organisation);
+    var giftBags = document.querySelector("#bags").value
     console.log(giftBags);
-    var address = document.querySelectorAll('input[name="address"]');
+    var address = document.querySelector("#address").value
     console.log(address);
-    var data = document.querySelectorAll('input[name="data"]');
+    var city = document.querySelector("#city").value
+    console.log(city);
+    var postcode = document.querySelector("#postcode").value
+    console.log(postcode);
+    var phone = document.querySelector("#phone").value
+    console.log(phone);
+    var data = document.getElementsByTagName('data').value
     console.log(data);
-    var time = document.querySelectorAll('input[name="time"]');
+    var time = document.querySelectorAll('input[name="time"]').value
     console.log(time);
-    var moreInfo = document.querySelectorAll('input[name="more_info"]');
+    var moreInfo = document.querySelectorAll('input[name="more_info"]').value
     console.log(moreInfo);
+    // display info
+
+        // document.querySelector(".summary--text").innerHTML = gift + giftBags
+        // document.querySelector(".summary--text").innerHTML = organisation
+        // document.querySelector("#sum_address ul li:first-child").innerHTML = address
+        // document.querySelector("#sum_address ul li:nth-child(2)").innerHTML = city
+        // document.querySelector("#sum_address ul li:nth-child(3)").innerHTML = postcode
+        // document.querySelector("#sum_date").innerText = data + time
+
+        var summaryList = document.createElement("ul")
+        var summaryAddress = document.createElement("li")
+        summaryAddress.innerHTML = address
+        var summaryCity = document.createElement("li")
+        summaryCity.innerHTML = city
+        var summaryPostcode = document.createElement("li")
+        summaryPostcode.innerHTML = postcode
+        var summaryPhone = document.createElement("li")
+        summaryPhone.innerHTML = phone
+        summaryList.appendChild(summaryAddress)
+        summaryList.appendChild(summaryCity)
+        summaryList.appendChild(summaryPostcode)
+        summaryList.appendChild(summaryPhone)
+
+        var summaryDiv = document.querySelector("#sum_address");
+        summaryDiv.appendChild(summaryList)
+
+
+        
+
 
 
 }
+document.querySelector(".btn.next-step ");addEventListener("click", ev => {
+    summary()
+})
